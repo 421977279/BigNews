@@ -48,9 +48,12 @@ $(function () {
                         $('#myModal').modal();
                         // 通过JQ修改弹框中的文字
                         $('.modal-body p').html(response.msg)
+
                     }
                 }
             });
         }
     })
 })
+
+// 完成登录页
