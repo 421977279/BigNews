@@ -17,7 +17,7 @@ $(function () {
     // 功能一：登录用户
     $.ajax({
         type: "get",
-        url: "http://localhost:8080/api/v1/admin/user/info",
+        url: BigNew.user_info,
         headers: {
             Authorization: localStorage.getItem('token')
         },
@@ -30,17 +30,48 @@ $(function () {
                 // 获取用户图片
                 const userPic = response.data.userPic;
                 // 替换用户的名称和图片
-                $('.user_info img,.user_center_link img').attr({src:userPic});
+                $('.user_info img,.user_center_link img').attr({
+                    src: userPic
+                });
                 $('.user_info span strong').html(userName);
             }
         }
     });
 
     // 功能二：退出功能
-    $('.logout').click(function(){
+    $('.logout').click(function () {
         // 移除token
         localStorage.removeItem('token');
         // 跳转回主页
-        location.href="./login.html"
+        location.href = "./login.html"
     })
+
+    // 功能三：点击左侧导航栏实现高亮
+    // 1.一级列表
+    $('.level01').click(function () {
+        // console.log($(this));
+        // 利用排他思想
+        $(this).addClass('active').siblings().removeClass('active');
+
+        // 判断是否点击文章管理
+        // 如果点击，则切换二级列表/三角图标/默认点击二级列表第一个(后面实现二级列表的高亮)
+        if ($(this).next().hasClass('level02')) {
+            // 切换二级列表
+            $('.level02').slideToggle('slow');
+            // 三角图标添加类
+            $(this).find('b').toggleClass('rotate0')
+            // 默认点击二级列表第一个
+            $('.level02>li>a').eq(0).click();
+        } else {
+            $('.level02>li').removeClass('active');
+        }
+    })
+
+    // 2.二级列表
+    $('.level02>li').click(function () {
+        $(this).addClass('active').siblings().removeClass('active');
+    })
+
+
+
 })

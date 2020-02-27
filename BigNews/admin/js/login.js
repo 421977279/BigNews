@@ -27,7 +27,7 @@ $(function () {
             //4.发送ajax请求
             $.ajax({
                 type: "post",
-                url: "http://localhost:8080/api/v1/admin/user/login",
+                url: BigNew.user_login,
                 data: {
                     username: user,
                     password: password,
