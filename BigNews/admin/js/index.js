@@ -16,11 +16,11 @@ $(function () {
 
     // 功能一：登录用户
     $.ajax({
-        type: "get",
+        type: "get", 
         url: BigNew.user_info,
-        headers: {
-            Authorization: localStorage.getItem('token')
-        },
+        // headers: {
+        //     Authorization: localStorage.getItem('token')
+        // },
         dataType: "json",
         success: function (response) {
             // console.log(response);
@@ -39,11 +39,20 @@ $(function () {
     });
 
     // 功能二：退出功能
-    $('.logout').click(function () {
-        // 移除token
-        localStorage.removeItem('token');
-        // 跳转回主页
-        location.href = "./login.html"
+    $('.logout').click(function (e) {
+        // 阻止默认行为
+        e.preventDefault();
+        //用户退出再一次判断
+        $('#myModal').modal();
+
+        // 点击确定按钮
+        $('.btn-primary').click(function () {
+            // 移除token
+            localStorage.removeItem('token');
+            // 跳转回主页
+            location.href = "./login.html"
+        })
+
     })
 
     // 功能三：点击左侧导航栏实现高亮
@@ -63,7 +72,10 @@ $(function () {
             // 默认点击二级列表第一个
             $('.level02>li>a').eq(0).click();
         } else {
+            // 二级菜单去除active类名
             $('.level02>li').removeClass('active');
+            // 将一级菜单隐藏
+            $('.level02').slideUp();
         }
     })
 
@@ -71,7 +83,4 @@ $(function () {
     $('.level02>li').click(function () {
         $(this).addClass('active').siblings().removeClass('active');
     })
-
-
-
 })
