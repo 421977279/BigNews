@@ -67,23 +67,22 @@ $(function () {
     // nickname	string	用户昵称  
     // email  	string	用户邮箱  
     // userPic 	 file 	用户图片地址
-    // password	string	用户密码  
+    // password	string	用户密码   
 
     // 功能三：注册点击修改按钮事件
     $('.btn-edit').click(function (e) {
         // 阻止默认行为
         e.preventDefault();
         // 获取form表单元素
-        let form = document.querySelector('#form');
+        // let form = document.querySelector('#form');
         // 将form表单元素以参数形式传入FormData内置对象中
-        let fd = new FormData(form);
+        // let fd = new FormData(form);
+
+        let fd = new FormData(this.form);
         // FormData作为对象发送ajqx请求
         $.ajax({
             type: "post",
             url: BigNew.user_edit,
-            // headers: {
-            //     Authorization: localStorage.getItem('token')
-            // },
             data: fd,
             dataType: "json",
             contentType: false,
@@ -91,14 +90,22 @@ $(function () {
             success: function (response) {
                 console.log(response);
                 if (response.code == 200) {
-                    $('#myModal').modal();
-                    $('.modal-body').html(response.msg)
-                    $('.btn-primary').click(function () {
-                        location.reload();
-                    })
+                    // $('#myModal').modal();
+                    // $('.modal-body').html(response.msg);
+                    // location.reload();
+                    //获取iframe里面中的预览图
+                    const imgSrc = $('img.user_pic').attr('src');
+                    // 获取iframe里的nickname
+                    const nickname = $('input.nickname').val();
+
+                    // 修改index主页里的头像
+                    window.parent.$('.user_info img,.user_center_link img').attr({
+                        'src': imgSrc
+                    });
+                    // 修改index主页里的昵称
+                    window.parent.$('.user_info>span>strong').html(nickname);
                 }
             }
         });
     })
-
 })
